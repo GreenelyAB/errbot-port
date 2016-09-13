@@ -65,13 +65,11 @@ class ServicePortNumber(BotPlugin):
         if not args:
             return ("Need to pass a service to remove. "
                     "Example: !port remove API")
-        elif args.lower() not in [k.lower() for k in self.services]:
-            return "{} is not registered as a service".format(args)
-        else:
-            self.services = [
-                k for k in self.services if k.lower() != args.lower()]
+        if self.services.pop(args, None):
             self._save_services()
             return "{} has been removed as a service".format(args)
+        else:
+            return "{} is not registered as a service".format(args)
 
     @botcmd
     def port_list(self, msg, args):
@@ -82,6 +80,6 @@ class ServicePortNumber(BotPlugin):
     @botcmd
     def port_empty(self, msg, args):
         """Empty the services."""
-        self.services = []
+        self.services = {}
         self._save_services()
         return "All services have been deleted."
