@@ -49,13 +49,13 @@ class ServicePortNumber(BotPlugin):
         if len(args) != 2:
             return ("Need to pass only 2 arguments. "
                     "Example: !port add API 80")
-        elif args[0].lower() in [k.lower() for k, v in self.services]:
-            return "{} is already a  service".format(args)
+        elif args[0].lower() in [k.lower() for k in self.services]:
+            return "{} is already a  service".format(args[0])
         else:
             try:
                 self.services[args[0]] = int(args[1])
                 self._save_services()
-                return "{} has been added as a service".format(args)
+                return "{} has been added as a service".format(args[0])
             except:
                 return "{} is not a valid port number.".format(args[1])
 
@@ -65,7 +65,7 @@ class ServicePortNumber(BotPlugin):
         if not args:
             return ("Need to pass a service to remove. "
                     "Example: !port remove API")
-        elif args.lower() not in [k.lower() for k, v in self.services]:
+        elif args.lower() not in [k.lower() for k in self.services]:
             return "{} is not registered as a service".format(args)
         else:
             self.services = [
@@ -77,7 +77,7 @@ class ServicePortNumber(BotPlugin):
     def port_list(self, msg, args):
         """List all services."""
         return "Services:\n{}".format(
-            "\n".join(["{}:{}".format(k,v) for k,v in self.services]))
+            "\n".join(["{}:{}".format(k, v) for k, v in self.services.items()]))
 
     @botcmd
     def port_empty(self, msg, args):
