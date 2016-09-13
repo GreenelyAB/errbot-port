@@ -1,0 +1,9 @@
+[Core]
+Name = Port
+Module = port
+
+[Documentation]
+Description = Service port number responder bot
+
+[Python]
+Version = 3
